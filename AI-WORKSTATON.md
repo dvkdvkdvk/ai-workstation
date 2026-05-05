@@ -53,14 +53,14 @@ python3 /Users/dkialka/ai-assistant/ultimate.py "build me a React login page"
 ### On New Machine - One Command
 ```bash
 # Download and run the installer
-curl -fsSL https://raw.githubusercontent.com/YOUR_USER/ai-workstation/main/ai-workstation-installer.sh -o /tmp/install.sh
+curl -fsSL https://raw.githubusercontent.com/dkialka/ai-workstation/main/ai-workstation-installer.sh -o /tmp/install.sh
 chmod +x /tmp/install.sh
 /tmp/install.sh
 ```
 
 Or manually:
 ```bash
-git clone https://github.com/YOUR_USER/ai-workstation.git
+git clone https://github.com/dkialka/ai-workstation.git
 cd ai-workstation
 ./ai-workstation-installer.sh
 ```

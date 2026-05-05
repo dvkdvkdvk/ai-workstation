@@ -1,7 +1,7 @@
 #!/bin/bash
 # AI WORKSTATION - One-Command Installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/YOUR_USER/ai-workstation/main/install.sh | bash
-# Or: bash <(curl -fsSL https://raw.githubusercontent.com/YOUR_USER/ai-workstation/main/install.sh)
+# Usage: curl -fsSL https://raw.githubusercontent.com/dkialka/ai-workstation/main/install.sh | bash
+# Or: bash <(curl -fsSL https://raw.githubusercontent.com/dkialka/ai-workstation/main/install.sh)
 
 set -e
 
