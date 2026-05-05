@@ -1,0 +1,8 @@
+# AI Workstation - One-Command Install
+# Share this command with anyone to install your exact OpenCode setup
+
+curl -fsSL https://raw.githubusercontent.com/dvkdvkdvk/ai-workstation/main/install.sh | bash
+
+# Alternative: download and run manually
+# curl -O https://raw.githubusercontent.com/dvkdvkdvk/ai-workstation/main/install.sh
+# bash install.sh
