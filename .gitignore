@@ -1,0 +1,40 @@
+# Sensitive files
+.env
+*.env
+*.key
+*.pem
+*credentials*
+*secret*
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+venv/
+env/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+
+# Build artifacts
+*.swiftdoc
+*.swiftmodule
+build/
+DerivedData/
+
+# Node
+node_modules/
+package-lock.json
+
+# Logs
+*.log
+/tmp/
+
+# IDE
+.vscode/
+.idea/
