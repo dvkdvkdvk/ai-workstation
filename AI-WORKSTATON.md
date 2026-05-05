@@ -14,12 +14,11 @@ Your standard AI development environment with 550+ skills.
 | **Raycast** | Quick launcher + AI shortcuts | ✅ manual open |
 
 ### Local AI Models (100% Free)
-| Model | Size | Best For |
-|-------|------|----------|
-| `codellama` | 3.8GB | Code expert, building apps |
-| `llama3.2:1b` | 1.3GB | UI/UX design, Figma |
-| `phi3:mini` | 2.2GB | Fast text, writing |
-| `gemma:2b` | 1.7GB | Alternative/chat |
+| Model | Context Window | Best For |
+|-------|---------------|----------|
+| `qwen2.5vl` | 128K | Layout analysis & JSON grounding |
+| `llama3.2:1b` | 10M tokens | Ultra-long context & multimodal reasoning |
+| `llama3.2:1b` | 128K | Lightweight, flexible image aspect ratios |
 
 ### Auto-Loaded Skills (6 core)
 When you **open OpenCode**, these load automatically:
@@ -47,7 +46,7 @@ When you **open OpenCode**, these load automatically:
 # Skills auto-load from ~/.config/opencode/opencode.json
 
 # 3. Test it
-python3 /Users/dvkdvkdvk/ai-assistant/ultimate.py "build me a React login page"
+python3 /Users/dkdvkdvk/ai-stack/ai-assistant/ultimate.py "build me a React login page"
 ```
 
 ### On New Machine - One Command
@@ -73,7 +72,7 @@ Location: `~/.config/opencode/opencode.json`
 Auto-loads these 6 skills on every OpenCode startup.
 
 ### AI Assistant Scripts
-Location: `~/ai-assistant/`
+Location: `~/ai-stack/ai-assistant/`
 
 - `ultimate.py` - Master assistant (all 6 skills + smart routing)
 - `smart-workstation.py` - Auto-selects best model per query
@@ -91,14 +90,14 @@ Just ask naturally:
 ### CLI Quick Commands
 ```bash
 # Smart auto-routing (picks best model automatically)
-python3 ~/ai-assistant/smart-workstation.py "build a login form"
-python3 ~/ai-assistant/smart-workstation.py "write a blog post"  
-python3 ~/ai-assistant/smart-workstation.py "design a dashboard"
+python3 ~/ai-stack/ai-assistant/smart-workstation.py "build a login form"
+python3 ~/ai-stack/ai-assistant/smart-workstation.py "write a blog post"  
+python3 ~/ai-stack/ai-assistant/smart-workstation.py "design a dashboard"
 
 # Test local AI
 curl http://localhost:4000/v1/chat/completions \
   -H "Content-Type: application/json" \
-  -d '{"model":"ollama/llama3.2:1b","messages":[{"role":"user","content":"hi"}]}'
+  -d '{"model":"ollama/qwen2.5vl","messages":[{"role":"user","content":"hi"}]}'
 ```
 
 ## Verify Installation
@@ -119,14 +118,14 @@ curl http://localhost:4000/health
 ## Replicate on New Machine
 
 1. **Copy these files** to new machine:
-   - `~/.config/opencode/opencode.json`
-   - `~/ai-assistant/` (entire folder)
-   - `~/ai-workstation.sh`
-   - `~/ai-workstation-installer.sh`
+    - `~/.config/opencode/opencode.json`
+    - `~/ai-stack/` (entire folder)
+    - `~/ai-workstation.sh`
+    - `~/ai-workstation-installer.sh`
 
 2. **Run installer** (or manually install):
    - Homebrew, Ollama, Python3, Pinokio, Raycast
-   - Pull Ollama models: `ollama pull codellama llama3.2:1b phi3:mini`
+   - Pull Ollama models: `ollama pull qwen2.5vl llama3.2:1b llama3.2:1b`
    - Install Python deps: `pip3 install 'litellm[proxy]'`
    - Copy skills to `~/.claude/skills/` and `~/.agents/skills/`
 

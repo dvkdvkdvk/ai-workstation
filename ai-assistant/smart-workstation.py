@@ -8,31 +8,25 @@ from litellm import completion
 
 api_base = "http://localhost:11434"
 
-# Model capabilities (learned from testing)
+# Model capabilities (updated to standard stack)
 MODEL_CAPABILITIES = {
-    "codellama": {
-        "strengths": ["code", "debug", "refactor", "algorithm"],
+    "qwen2.5vl": {
+        "strengths": ["code", "layout_analysis", "json_grounding", "figma", "ui_design"],
         "speed": "medium",
-        "quality": "high_code",
-        "size": "3.8GB"
+        "quality": "high_vision",
+        "context": "128K"
     },
     "llama3.2:1b": {
-        "strengths": ["chat", "ui_design", "figma", "general", "summary"],
-        "speed": "fast",
-        "quality": "medium",
-        "size": "1.3GB"
+        "strengths": ["multimodal", "long_context", "chat", "audit", "reasoning"],
+        "speed": "medium",
+        "quality": "high_multimodal",
+        "context": "10M tokens"
     },
-    "phi3:mini": {
-        "strengths": ["text", "write", "summarize", "fast_tasks"],
-        "speed": "very_fast",
-        "quality": "medium",
-        "size": "2.2GB"
-    },
-    "gemma:2b": {
-        "strengths": ["chat", "general", "creative"],
+    "llama3.2:1b": {
+        "strengths": ["text", "write", "image_flexible", "lightweight"],
         "speed": "fast",
-        "quality": "medium",
-        "size": "1.7GB"
+        "quality": "medium_high",
+        "context": "128K"
     }
 }
 
@@ -100,15 +94,17 @@ def detect_task_type(prompt: str) -> str:
 def select_best_model(task_type: str) -> str:
     """Select best Ollama model for task type"""
     mapping = {
-        "code": "ollama/codellama",
+        "code": "ollama/qwen2.5vl",
         "ui_design": "ollama/llama3.2:1b",
-        "figma": "ollama/llama3.2:1b",
-        "text": "ollama/phi3:mini",
-        "write": "ollama/phi3:mini",
+        "figma": "ollama/qwen2.5vl",
+        "text": "ollama/llama3.2:1b",
+        "write": "ollama/llama3.2:1b",
         "chat": "ollama/llama3.2:1b",
-        "general": "ollama/llama3.2:1b"
+        "general": "ollama/llama3.2:1b",
+        "multimodal": "ollama/llama3.2:1b",
+        "audit": "ollama/llama3.2:1b"
     }
-    return mapping.get(task_type, "ollama/llama3.2:1b")
+    return mapping.get(task_type, "ollama/qwen2.5vl")
 
 def get_selection_reason(task_type: str, model: str) -> str:
     """Explain why this model was selected"""
@@ -150,10 +146,11 @@ print("""
 Just use smart_ask("your query") - it auto-selects the best model!
 
 Examples:
-  smart_ask("Build me a React login page")     # → codellama
-  smart_ask("Design a landing page")           # → llama3.2:1b  
-  smart_ask("Write a blog post")               # → phi3:mini
-  smart_ask("Review my Figma design")         # → llama3.2:1b
+  smart_ask("Build me a React login page")     # → qwen2.5vl
+  smart_ask("Design a landing page")           # → llama3.2:1b
+  smart_ask("Write a blog post")               # → llama3.2:1b
+  smart_ask("Review my Figma design")         # → qwen2.5vl
+  smart_ask("Long context chat")               # → llama3.2:1b
 
 Override: smart_ask("query", task_type="code")
 """)

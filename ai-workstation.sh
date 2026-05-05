@@ -28,13 +28,13 @@ if ! pgrep -x "ollama" > /dev/null; then
     brew services start ollama
     sleep 3
 fi
-echo "✅ Ollama running (local models: codellama, llama3.2, phi3)"
+echo "✅ Ollama running (local models: qwen2.5vl, llama3.2:1b, llama3.2:1b)"
 
 # 4. Start LiteLLM Proxy (OpenAI-compatible API)
 echo ""
 echo "Starting LiteLLM Proxy..."
 pkill -f "litellm --model" 2>/dev/null
-litellm --model ollama/llama3.2:1b --port 4000 > /tmp/litellm-proxy.log 2>&1 &
+litellm --model ollama/qwen2.5vl --port 4000 > /tmp/litellm-proxy.log 2>&1 &
 sleep 5
 echo "✅ LiteLLM Proxy running at http://0.0.0.0:4000"
 
@@ -61,7 +61,7 @@ echo ""
 echo "🤖 Test Local AI:"
 echo "   curl http://0.0.0.0:4000/v1/chat/completions \\"
 echo "     -H 'Content-Type: application/json' \\"
-echo "     -d '{\"model\":\"ollama/llama3.2:1b\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}'"
+echo "     -d '{\"model\":\"ollama/qwen2.5vl\",\"messages\":[{\"role\":\"user\",\"content\":\"hi\"}]}'"
 echo ""
 echo "📁 AI Assistant Scripts (~/ai-stack/ai-assistant/):"
 echo "   python3 ~/ai-stack/ai-assistant/ultimate.py      # Master assistant (all 6 skills)"

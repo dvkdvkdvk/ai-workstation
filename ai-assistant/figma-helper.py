@@ -9,7 +9,7 @@ api_base = "http://localhost:11434"
 
 def figa_design_task(prompt: str):
     """Generate Figma design suggestions"""
-    model = "ollama/llama3.2:1b"
+    model = "ollama/qwen2.5vl"
     print(f"Using model: {model.split('/')[-1]} for Figma task\n")
     
     response = completion(

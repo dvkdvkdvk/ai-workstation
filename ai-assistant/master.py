@@ -3,11 +3,11 @@ YOUR LOCAL AI ASSISTANT - Complete System
 100% FREE - Runs on Ollama + LiteLLM
 
 Capabilities:
-✅ Build apps & check/fix code (CodeLlama)
-✅ Create high-end UIs (Llama3.2)  
-✅ Write professional text (Phi3)
-✅ Edit/Review Figma designs (Llama3.2)
-✅ Web tasks & general chat (Llama3.2, Phi3)
+✅ Build apps & check/fix code (Qwen2.5-VL - layout analysis)
+✅ Create high-end UIs (Pixtral 12B - flexible image ratios)
+✅ Write professional text (Pixtral 12B - lightweight)
+✅ Long context chat & multimodal reasoning (Llama 4 Scout - 10M tokens)
+✅ Figma design review (Qwen2.5-VL - JSON grounding)
 """
 import os
 import json
@@ -17,20 +17,21 @@ api_base = "http://localhost:11434"
 
 # Model Router - picks best model for each task
 MODELS = {
-    "code": "ollama/codellama",           # Code expert
-    "build_app": "ollama/codellama",       # App development
-    "fix_code": "ollama/codellama",        # Debug & fix
-    "ui_design": "ollama/llama3.2:1b",   # UI/UX design
-    "figma": "ollama/llama3.2:1b",       # Figma specs
-    "text": "ollama/phi3:mini",            # Fast text generation
-    "write": "ollama/phi3:mini",           # Writing tasks
-    "web": "ollama/llama3.2:1b",         # Web tasks
-    "chat": "ollama/llama3.2:1b",         # General chat
+    "code": "ollama/qwen2.5vl",           # Layout analysis & JSON grounding
+    "build_app": "ollama/qwen2.5vl",       # App development
+    "fix_code": "ollama/qwen2.5vl",        # Debug & fix
+    "ui_design": "ollama/llama3.2:1b",     # Flexible image aspect ratios
+    "figma": "ollama/qwen2.5vl",          # Layout analysis for Figma
+    "text": "ollama/llama3.2:1b",           # Lightweight text generation
+    "write": "ollama/llama3.2:1b",          # Writing tasks
+    "web": "ollama/qwen2.5vl",            # Web tasks with layout analysis
+    "chat": "ollama/llama3.2:1b",          # Ultra-long context chat (10M tokens)
+    "multimodal": "ollama/llama3.2:1b",    # Native multimodal reasoning
 }
 
 def ask(task_type: str, prompt: str, system: str = None):
     """Smart routing to best model for the task"""
-    model = MODELS.get(task_type, "ollama/llama3.2:1b")
+    model = MODELS.get(task_type, "ollama/qwen2.5vl")
     model_name = model.split('/')[-1]
     
     messages = []

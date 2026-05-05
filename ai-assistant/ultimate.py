@@ -3,13 +3,14 @@ ULTIMATE AI ASSISTANT - Powered by 6 Expert Skills
 ==================================================
 Skills loaded:
 ✅ frontend-design - distinctive UI creation
-✅ ui-ux-pro-max - design system & 67 styles  
+✅ ui-ux-pro-max - design system & 67 styles
 ✅ vercel-react-best-practices - React/Next.js performance
 ✅ web-artifacts-builder - React + Tailwind + shadcn/ui
 ✅ design-auditor - design review (19 rules)
 ✅ theme-factory - 10 professional themes
 
 100% FREE - Runs on local Ollama models via LiteLLM
+Models: qwen2.5vl (layout analysis), llama3.2:1b (10M context), llama3.2:1b (flexible vision)
 """
 import os
 from litellm import completion
@@ -19,24 +20,25 @@ api_base = "http://localhost:11434"
 
 # Model Router - picks best model for each task
 MODELS = {
-    "code": "ollama/codellama",           # Code expert
-    "build_app": "ollama/codellama",       # App development  
-    "fix_code": "ollama/codellama",        # Debug & fix
-    "ui_design": "ollama/llama3.2:1b",   # UI/UX design
-    "figma": "ollama/llama3.2:1b",       # Figma specs
-    "text": "ollama/phi3:mini",            # Fast text generation
-    "write": "ollama/phi3:mini",           # Writing tasks
-    "web": "ollama/llama3.2:1b",         # Web tasks
-    "chat": "ollama/llama3.2:1b",         # General chat
-    "react": "ollama/codellama",           # React components
-    "nextjs": "ollama/codellama",          # Next.js pages
-    "audit": "ollama/llama3.2:1b",       # Design audit
-    "theme": "ollama/llama3.2:1b",        # Theme selection
+    "code": "ollama/qwen2.5vl",           # Layout analysis & JSON grounding
+    "build_app": "ollama/qwen2.5vl",       # App development
+    "fix_code": "ollama/qwen2.5vl",        # Debug & fix
+    "ui_design": "ollama/llama3.2:1b",     # Flexible image aspect ratios
+    "figma": "ollama/qwen2.5vl",          # Layout analysis for Figma
+    "text": "ollama/llama3.2:1b",           # Lightweight text generation
+    "write": "ollama/llama3.2:1b",          # Writing tasks
+    "web": "ollama/qwen2.5vl",            # Web tasks with layout analysis
+    "chat": "ollama/llama3.2:1b",          # Ultra-long context chat (10M tokens)
+    "react": "ollama/qwen2.5vl",           # React components with layout analysis
+    "nextjs": "ollama/qwen2.5vl",         # Next.js pages
+    "audit": "ollama/llama3.2:1b",         # Design audit with long context
+    "theme": "ollama/llama3.2:1b",          # Theme selection
+    "multimodal": "ollama/llama3.2:1b",    # Native multimodal reasoning
 }
 
 def ask(task_type: str, prompt: str, system: str = None):
     """Smart routing to best model for the task"""
-    model = MODELS.get(task_type, "ollama/llama3.2:1b")
+    model = MODELS.get(task_type, "ollama/qwen2.5vl")
     model_name = model.split('/')[-1]
     
     messages = []
@@ -232,4 +234,5 @@ All skills integrated:
 ✅ theme-factory - 10 professional themes
 
 100% FREE - Running on local Ollama models!
+Models: qwen2.5vl | llama3.2:1b | llama3.2:1b
 """)

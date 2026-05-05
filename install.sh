@@ -54,9 +54,9 @@ sleep 3
 # ============ 4. PULL MODELS ============
 echo ""
 echo "Pulling AI models (this takes ~10 min)..."
-ollama pull codellama      # 3.8GB - Code expert
-ollama pull llama3.2:1b   # 1.3GB - UI/design
-ollama pull phi3:mini      # 2.2GB - Fast text
+ollama pull qwen2.5vl     # Layout analysis & JSON grounding (128K context)
+ollama pull llama3.2:1b    # Ultra-long context & multimodal reasoning (10M tokens)
+ollama pull llama3.2:1b     # Lightweight, flexible image aspect ratios (128K context)
 
 # ============ 5. INSTALL PYTHON + LITELLM ============
 echo ""
@@ -78,7 +78,20 @@ if [ ! -d "/Applications/Raycast.app" ]; then
     brew install --cask raycast
 fi
 
-# ============ 8. CONFIGURE OPENCODE (AUTO-LOAD SKILLS) ============
+# ============ 8. INSTALL VS CODE EXTENSIONS ============
+echo ""
+echo "Installing VS Code extensions..."
+if command -v code &> /dev/null; then
+    code --install-extension christian-kohler.path-intellisense \
+        --install-extension ritwickdey.liveserver \
+        --install-extension eamodio.gitlens \
+        --install-extension esbenp.prettier-vscode \
+        --install-extension kilo.kilo-code
+else
+    echo "  ⚠️  VS Code not found. Install from: https://code.visualstudio.com/"
+fi
+
+# ============ 9. CONFIGURE OPENCODE (AUTO-LOAD SKILLS) ============
 echo ""
 echo "Configuring OpenCode with 6 core skills..."
 
@@ -106,7 +119,7 @@ cat > "$HOME_DIR/.config/opencode/opencode.json" << 'EOF'
 }
 EOF
 
-# ============ 9. INSTALL COMMUNITY SKILLS ============
+# ============ 10. INSTALL COMMUNITY SKILLS ============
 echo ""
 echo "Installing community skills (550+ total)..."
 
@@ -144,7 +157,7 @@ if [ -d "$SKILLS_DIR" ]; then
     cp -r "$SKILLS_DIR"/* "$AGENTS_SKILLS/" 2>/dev/null || true
 fi
 
-# ============ 10. CREATE AI-ASSISTANT SCRIPTS ============
+# ============ 11. CREATE AI-ASSISTANT SCRIPTS ============
 echo ""
 echo "Creating AI assistant scripts..."
 
@@ -162,17 +175,18 @@ from litellm import completion
 api_base = "http://localhost:11434"
 
 MODELS = {
-    "code": "ollama/codellama",
-    "build_app": "ollama/codellama",
-    "fix_code": "ollama/codellama",
+    "code": "ollama/qwen2.5vl",
+    "build_app": "ollama/qwen2.5vl",
+    "fix_code": "ollama/qwen2.5vl",
     "ui_design": "ollama/llama3.2:1b",
-    "figma": "ollama/llama3.2:1b",
-    "text": "ollama/phi3:mini",
-    "write": "ollama/phi3:mini",
-    "web": "ollama/llama3.2:1b",
-    "react": "ollama/codellama",
+    "figma": "ollama/qwen2.5vl",
+    "text": "ollama/llama3.2:1b",
+    "write": "ollama/llama3.2:1b",
+    "web": "ollama/qwen2.5vl",
+    "react": "ollama/qwen2.5vl",
     "audit": "ollama/llama3.2:1b",
     "theme": "ollama/llama3.2:1b",
+    "multimodal": "ollama/llama3.2:1b",
 }
 
 def smart_ask(prompt):
@@ -184,7 +198,7 @@ def smart_ask(prompt):
     elif any(k in prompt_lower for k in ["write", "email", "blog", "text"]):
         model = MODELS["text"]
     else:
-        model = "ollama/llama3.2:1b"
+        model = "ollama/qwen2.5vl"
     
     print(f"🤖 Using: {model.split('/')[-1]}")
     response = completion(model=model, messages=[{"role": "user", "content": prompt}], api_base=api_base)
@@ -209,12 +223,13 @@ api_base = "http://localhost:11434"
 
 def ask(task_type, prompt):
     models = {
-        "code": "ollama/codellama",
+        "code": "ollama/qwen2.5vl",
         "ui": "ollama/llama3.2:1b",
-        "text": "ollama/phi3:mini",
-        "figma": "ollama/llama3.2:1b",
+        "text": "ollama/llama3.2:1b",
+        "figma": "ollama/qwen2.5vl",
+        "multimodal": "ollama/llama3.2:1b",
     }
-    model = models.get(task_type, "ollama/llama3.2:1b")
+    model = models.get(task_type, "ollama/qwen2.5vl")
     response = completion(model=model, messages=[{"role": "user", "content": prompt}], api_base=api_base)
     return response.choices[0].message.content
 
@@ -238,11 +253,11 @@ api_base = "http://localhost:11434"
 def route(prompt):
     prompt_lower = prompt.lower()
     if any(k in prompt_lower for k in ["code", "function", "debug"]):
-        model = "ollama/codellama"
+        model = "ollama/qwen2.5vl"
     elif any(k in prompt_lower for k in ["ui", "design", "figma"]):
         model = "ollama/llama3.2:1b"
     else:
-        model = "ollama/phi3:mini"
+        model = "ollama/qwen2.5vl"
     
     response = completion(model=model, messages=[{"role": "user", "content": prompt}], api_base=api_base)
     print(response.choices[0].message.content)
@@ -252,7 +267,7 @@ if __name__ == "__main__":
         route(" ".join(sys.argv[1:]))
 PYEOF
 
-# ============ 11. CREATE WORKSTATION LAUNCHER ============
+# ============ 12. CREATE WORKSTATION LAUNCHER ============
 echo ""
 echo "Creating workstation launcher..."
 
@@ -275,7 +290,7 @@ echo "✅ Ollama running"
 echo ""
 echo "Starting LiteLLM Proxy..."
 pkill -f "litellm --model" 2>/dev/null
-litellm --model ollama/llama3.2:1b --port 4000 > /tmp/litellm-proxy.log 2>&1 &
+litellm --model ollama/qwen2.5vl --port 4000 > /tmp/litellm-proxy.log 2>&1 &
 sleep 5
 echo "✅ LiteLLM Proxy running at http://localhost:4000"
 
@@ -298,7 +313,7 @@ BASHEOF
 
 chmod +x "$AI_STACK/ai-workstation.sh"
 
-# ============ 12. AUTO-START WITH TERMINAL ============
+# ============ 13. AUTO-START WITH TERMINAL ============
 echo ""
 echo "Setting up auto-start..."
 
@@ -315,11 +330,11 @@ else
     echo "  ✅ Auto-start already configured"
 fi
 
-# ============ 13. START SERVICES ============
+# ============ 14. START SERVICES ============
 echo ""
 echo "Starting services..."
 pkill -f "litellm --model" 2>/dev/null || true
-litellm --model ollama/llama3.2:1b --port 4000 > /tmp/litellm-proxy.log 2>&1 &
+litellm --model ollama/qwen2.5vl --port 4000 > /tmp/litellm-proxy.log 2>&1 &
 sleep 5
 
 # ============ SUMMARY ============
@@ -329,12 +344,13 @@ echo "✅ AI WORKSTATION COMPLETE!"
 echo "============================================"
 echo ""
 echo "Installed:"
-echo "  ✅ Ollama + 3 models (codellama, llama3.2, phi3)"
+echo "  ✅ Ollama + 3 models (qwen2.5vl, llama3.2:1b, llama3.2:1b)"
 echo "  ✅ LiteLLM Proxy (http://localhost:4000)"
 echo "  ✅ 6 Core Skills (auto-loaded in OpenCode)"
 echo "  ✅ 550+ Community Skills (alirezarezvani, borghei, OneWave)"
 echo "  ✅ Pinokio (1-click AI apps)"
 echo "  ✅ Raycast (quick launcher)"
+echo "  ✅ VS Code extensions (5 extensions)"
 echo "  ✅ Auto-starts with terminal"
 echo ""
 echo "Directory Structure:"

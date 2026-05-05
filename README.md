@@ -16,8 +16,7 @@ bash install.sh
 ```
 
 ## What Gets Installed
-
-✅ **Ollama** - Local AI models (codellama, llama3.2, phi3)
+✅ **Ollama** - Local AI models (qwen2.5vl, llama3.2:1b, llama3.2:1b)
 ✅ **LiteLLM Proxy** - OpenAI-compatible API at localhost:4000
 ✅ **OpenCode Skills** - 6 core + 550+ community skills auto-load
 ✅ **Pinokio** - 1-click AI app installer

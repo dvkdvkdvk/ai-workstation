@@ -35,9 +35,9 @@ sleep 3
 # ============ 3. PULL MODELS ============
 echo ""
 echo "Pulling AI models (this takes ~10 min)..."
-ollama pull codellama      # 3.8GB - Code expert
-ollama pull llama3.2:1b       # 1.3GB - UI/design
-ollama pull phi3:mini           # 2.2GB - Fast text
+ollama pull qwen2.5vl     # Layout analysis & JSON grounding (128K context)
+ollama pull llama3.2:1b    # Ultra-long context & multimodal reasoning (10M tokens)
+ollama pull llama3.2:1b     # Lightweight, flexible image aspect ratios (128K context)
 
 # ============ 4. INSTALL PYTHON + LITELLM ============
 echo ""
@@ -59,7 +59,20 @@ if [ ! -d "/Applications/Raycast.app" ]; then
     brew install --cask raycast
 fi
 
-# ============ 7. CONFIGURE OPENCODE (AUTO-LOAD SKILLS) ============
+# ============ 7. INSTALL VS CODE EXTENSIONS ============
+echo ""
+echo "Installing VS Code extensions..."
+if command -v code &> /dev/null; then
+    code --install-extension christian-kohler.path-intellisense \
+        --install-extension ritwickdey.liveserver \
+        --install-extension eamodio.gitlens \
+        --install-extension esbenp.prettier-vscode \
+        --install-extension kilo.kilo-code
+else
+    echo "  ⚠️  VS Code not found. Install from: https://code.visualstudio.com/"
+fi
+
+# ============ 8. CONFIGURE OPENCODE (AUTO-LOAD SKILLS) ============
 echo ""
 echo "Configuring OpenCode with 6 skills..."
 
@@ -95,7 +108,7 @@ cat > /Users/dkialka/.config/opencode/opencode.json << 'EOF'
 }
 EOF
 
-# ============ 8. INSTALL COMMUNITY SKILLS ============
+# ============ 9. INSTALL COMMUNITY SKILLS ============
 echo ""
 echo "Installing community skills..."
 
@@ -123,7 +136,7 @@ if [ ! -d "$SKILLS_DIR/onewave-ai" ]; then
     cp -r /tmp/onewave-skills/skills/* "$SKILLS_DIR/onewave-ai/" 2>/dev/null || true
 fi
 
-# ============ 9. CREATE AI-STACK STRUCTURE ============
+# ============ 10. CREATE AI-STACK STRUCTURE ============
 echo ""
 echo "Creating ai-stack folders..."
 
@@ -139,7 +152,7 @@ if [ -d "/Users/dkialka/ai-assistant" ]; then
     cp -r /Users/dkialka/ai-assistant/* /Users/dkialka/ai-stack/ai-assistant/ 2>/dev/null || true
 fi
 
-# ============ 10. AUTO-START WORKSTATION WITH OPENCODE ============
+# ============ 11. AUTO-START WORKSTATION WITH OPENCODE ============
 echo ""
 echo "Setting up auto-start with OpenCode..."
 
@@ -157,11 +170,11 @@ else
     echo "  ✅ Auto-start already configured"
 fi
 
-# ============ 11. START SERVICES ============
+# ============ 12. START SERVICES ============
 echo ""
 echo "Starting services..."
 pkill -f "litellm --model" 2>/dev/null || true
-litellm --model ollama/llama3.2:1b --port 4000 > /tmp/litellm-proxy.log 2>&1 &
+litellm --model ollama/qwen2.5vl --port 4000 > /tmp/litellm-proxy.log 2>&1 &
 sleep 5
 
 # ============ SUMMARY ============
@@ -172,12 +185,13 @@ echo "="*60"
 echo ""
 echo "Installed & Configured:"
 echo "  ✅ ~/ai-stack/ (all files organized)"
-echo "  ✅ Ollama + 3 models (codellama, llama3.2, phi3)"
+echo "  ✅ Ollama + 3 models (qwen2.5vl, llama3.2:1b, llama3.2:1b)"
 echo "  ✅ LiteLLM Proxy (http://0.0.0.0:4000)"
 echo "  ✅ 6 Core Skills (auto-loaded in OpenCode)"
 echo "  ✅ 550+ Community Skills (alirezarezvani, borghei, OneWave)"
 echo "  ✅ Pinokio (1-click AI apps)"
 echo "  ✅ Raycast (quick launcher)"
+echo "  ✅ VS Code extensions (5 extensions)"
 echo "  ✅ Auto-starts with OpenCode"
 echo ""
 echo "Directory Structure:"
