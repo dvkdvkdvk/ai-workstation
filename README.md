@@ -5,13 +5,13 @@ Share this with anyone - they'll get your exact OpenCode setup!
 ## One-Command Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dkialka/ai-workstation/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/dvkdvkdvk/ai-workstation/main/install.sh | bash
 ```
 
 Or download and run:
 
 ```bash
-curl -O https://raw.githubusercontent.com/dkialka/ai-workstation/main/install.sh
+curl -O https://raw.githubusercontent.com/dvkdvkdvk/ai-workstation/main/install.sh
 bash install.sh
 ```
 

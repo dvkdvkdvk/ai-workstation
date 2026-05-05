@@ -41,26 +41,26 @@ When you **open OpenCode**, these load automatically:
 ### On Current Machine
 ```bash
 # 1. Start everything
-/Users/dkialka/ai-workstation.sh
+/Users/dvkdvkdvk/ai-workstation.sh
 
 # 2. Open OpenCode
 # Skills auto-load from ~/.config/opencode/opencode.json
 
 # 3. Test it
-python3 /Users/dkialka/ai-assistant/ultimate.py "build me a React login page"
+python3 /Users/dvkdvkdvk/ai-assistant/ultimate.py "build me a React login page"
 ```
 
 ### On New Machine - One Command
 ```bash
 # Download and run the installer
-curl -fsSL https://raw.githubusercontent.com/dkialka/ai-workstation/main/ai-workstation-installer.sh -o /tmp/install.sh
+curl -fsSL https://raw.githubusercontent.com/dvkdvkdvk/ai-workstation/main/ai-workstation-installer.sh -o /tmp/install.sh
 chmod +x /tmp/install.sh
 /tmp/install.sh
 ```
 
 Or manually:
 ```bash
-git clone https://github.com/dkialka/ai-workstation.git
+git clone https://github.com/dvkdvkdvk/ai-workstation.git
 cd ai-workstation
 ./ai-workstation-installer.sh
 ```
